@@ -1,0 +1,16 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 960px;
+}
+
+h1, h2, h3 {
+    color: #343a40;
+}
+
+.expiry-day {
+    color: #dc3545 !important;
+    font-weight: bold;
+}
