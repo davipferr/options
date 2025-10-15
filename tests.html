@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Testes - Calculadora de Opções</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <style>
+      .test-pass {
+        color: #198754;
+        background-color: #d1e7dd;
+      }
+
+      .test-fail {
+        color: #dc3545;
+        background-color: #f8d7da;
+      }
+
+      .test-summary {
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+      }
+
+      .test-case {
+        border-left: 4px solid #007bff;
+        padding-left: 10px;
+        margin: 5px 0;
+      }
+
+      .test-group {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-light">
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="text-center mb-4">🧪 Testes - Calculadora de Opções</h1>
+          <p class="text-center text-muted">
+            Testes automatizados para validar as regras de negócio da aplicação
+          </p>
+
+          <!-- Resumo dos Testes -->
+          <div id="test-summary" class="test-summary">
+            <div id="summary-content">Executando testes...</div>
+          </div>
+
+          <!-- Botão para executar testes -->
+          <div class="text-center mb-4">
+            <button id="run-tests" class="btn btn-primary btn-lg">
+              🚀 Executar Todos os Testes
+            </button>
+            <button
+              id="clear-tests"
+              class="btn btn-outline-secondary btn-lg ms-2"
+            >
+              🗑️ Limpar Resultados
+            </button>
+          </div>
+
+          <!-- Resultados dos Testes -->
+          <div id="test-results"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/OptionCalculator.js"></script>
+    <script src="tests/TestRunner.js"></script>
+    <script src="tests/OptionCalculatorTests.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const testRunner = new TestRunner();
+        const tests = new OptionCalculatorTests();
+
+        document.getElementById("run-tests").addEventListener("click", () => {
+          testRunner.runAllTests(tests);
+        });
+
+        document.getElementById("clear-tests").addEventListener("click", () => {
+          testRunner.clearResults();
+        });
+      });
+    </script>
+  </body>
+</html>
