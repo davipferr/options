@@ -185,8 +185,8 @@ class OptionCalculatorTests {
     const businessDays = calculator.countBusinessDays(startMonday, endFriday);
     this.testRunner.assertEqual(
       businessDays,
-      4,
-      "Segunda a sexta: 4 dias úteis",
+      5,
+      "Segunda a sexta: 5 dias úteis",
       "Contagem Dias Úteis"
     );
   }
@@ -201,8 +201,8 @@ class OptionCalculatorTests {
     const businessDays = calculator.countBusinessDays(startFriday, endMonday);
     this.testRunner.assertEqual(
       businessDays,
-      1,
-      "Sexta a segunda: 1 dia útil",
+      2,
+      "Sexta a segunda: 2 dias úteis",
       "Contagem Dias Úteis"
     );
   }
@@ -216,8 +216,8 @@ class OptionCalculatorTests {
 
     this.testRunner.assertEqual(
       businessDays,
-      0,
-      "Mesmo dia: 0 dias úteis",
+      1,
+      "Mesmo dia: 1 dia útil",
       "Contagem Dias Úteis"
     );
   }
@@ -306,8 +306,8 @@ class OptionCalculatorTests {
 
     this.testRunner.assertEqual(
       expiryData.daysToCurrentExpiry,
-      0,
-      "Dias até vencimento deve ser 0",
+      1,
+      "Dias até vencimento deve ser 1",
       "Dia do Vencimento"
     );
     this.testRunner.assert(
@@ -650,8 +650,8 @@ class OptionCalculatorTests {
     const weekBusinessDays = calculator.countBusinessDays(monday1, monday2);
     this.testRunner.assertEqual(
       weekBusinessDays,
-      5,
-      "Uma semana deve ter 5 dias úteis",
+      6,
+      "Uma semana deve ter 6 dias úteis",
       "Contagem Semanal"
     );
   }

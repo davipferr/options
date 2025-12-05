@@ -48,7 +48,7 @@ class OptionCalculator {
     let count = 0;
     const curDate = new Date(startDate.getTime());
 
-    curDate.setDate(curDate.getDate() + 1);
+    curDate.setDate(curDate.getDate());
     curDate.setHours(0, 0, 0, 0);
 
     const normalizedEndDate = new Date(endDate.getTime());
