@@ -178,15 +178,15 @@ class OptionCalculatorTests {
   testBusinessDaysCountBasic() {
     const calculator = new OptionCalculator(new Date());
 
-    // Segunda a sexta (5 dias úteis)
+    // Segunda a sexta, excluindo início e fim (terça a quinta: 3 dias úteis)
     const startMonday = new Date(2024, 0, 8); // 8 jan 2024 (segunda)
     const endFriday = new Date(2024, 0, 12); // 12 jan 2024 (sexta)
 
     const businessDays = calculator.countBusinessDays(startMonday, endFriday);
     this.testRunner.assertEqual(
       businessDays,
-      5,
-      "Segunda a sexta: 5 dias úteis",
+      3,
+      "Segunda a sexta (sem extremos): 3 dias úteis",
       "Contagem Dias Úteis"
     );
   }
@@ -194,15 +194,15 @@ class OptionCalculatorTests {
   testBusinessDaysCountWithWeekend() {
     const calculator = new OptionCalculator(new Date());
 
-    // Sexta a segunda (através do final de semana)
+    // Sexta a segunda, excluindo início e fim (restam sábado e domingo: 0 úteis)
     const startFriday = new Date(2024, 0, 5); // 5 jan 2024 (sexta)
     const endMonday = new Date(2024, 0, 8); // 8 jan 2024 (segunda)
 
     const businessDays = calculator.countBusinessDays(startFriday, endMonday);
     this.testRunner.assertEqual(
       businessDays,
-      2,
-      "Sexta a segunda: 2 dias úteis",
+      0,
+      "Sexta a segunda (sem extremos): 0 dias úteis",
       "Contagem Dias Úteis"
     );
   }
@@ -216,8 +216,8 @@ class OptionCalculatorTests {
 
     this.testRunner.assertEqual(
       businessDays,
-      1,
-      "Mesmo dia: 1 dia útil",
+      0,
+      "Mesmo dia: 0 dias úteis",
       "Contagem Dias Úteis"
     );
   }
@@ -240,15 +240,15 @@ class OptionCalculatorTests {
   testBusinessDaysCountFullWeek() {
     const calculator = new OptionCalculator(new Date());
 
-    // Uma semana completa (segunda a domingo)
-    const startMonday = new Date(2025, 0, 8); // 8 jan 2025 (segunda)
-    const endSunday = new Date(2025, 0, 14); // 14 jan 2025 (domingo)
+    // 08/01/2025 a 14/01/2025, excluindo início e fim: 3 úteis
+    const startMonday = new Date(2025, 0, 8); // 8 jan 2025 (quarta)
+    const endSunday = new Date(2025, 0, 14); // 14 jan 2025 (terça)
 
     const businessDays = calculator.countBusinessDays(startMonday, endSunday);
     this.testRunner.assertEqual(
       businessDays,
-      5,
-      "Semana completa: 5 dias úteis",
+      3,
+      "08/01 a 14/01 (sem extremos): 3 dias úteis",
       "Contagem Dias Úteis"
     );
   }
@@ -306,8 +306,8 @@ class OptionCalculatorTests {
 
     this.testRunner.assertEqual(
       expiryData.daysToCurrentExpiry,
-      1,
-      "Dias até vencimento deve ser 1",
+      0,
+      "Dias até vencimento deve ser 0",
       "Dia do Vencimento"
     );
     this.testRunner.assert(
@@ -650,9 +650,26 @@ class OptionCalculatorTests {
     const weekBusinessDays = calculator.countBusinessDays(monday1, monday2);
     this.testRunner.assertEqual(
       weekBusinessDays,
-      6,
-      "Uma semana deve ter 6 dias úteis",
+      4,
+      "Uma semana (sem extremos) deve ter 4 dias úteis",
       "Contagem Semanal"
+    );
+  }
+
+  testBusinessDaysExcludeStartAndExpiryRegression() {
+    const calculator = new OptionCalculator(new Date());
+
+    // Caso de regressão: 22/04/2026 até 15/05/2026 deve resultar em 16
+    // ao excluir o dia atual e o dia de vencimento.
+    const startDate = new Date(2026, 3, 22); // 22/04/2026
+    const expiryDate = new Date(2026, 4, 15); // 15/05/2026
+
+    const businessDays = calculator.countBusinessDays(startDate, expiryDate);
+    this.testRunner.assertEqual(
+      businessDays,
+      16,
+      "Regressão 22/04/2026->15/05/2026 deve ser 16",
+      "Contagem Dias Úteis"
     );
   }
 

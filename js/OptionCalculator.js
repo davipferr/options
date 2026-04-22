@@ -36,25 +36,23 @@ class OptionCalculator {
     const normalizedEndDate = new Date(endDate.getTime());
     normalizedEndDate.setHours(0, 0, 0, 0);
 
-    // Se a data de início é depois da data de fim, retornamos negativo
-    if (normalizedStartDate.getTime() > normalizedEndDate.getTime()) {
-      const negativeDays = this.countBusinessDaysPositive(endDate, startDate);
-      return negativeDays === 0 ? -1 : -negativeDays;
+    if (normalizedStartDate.getTime() === normalizedEndDate.getTime()) {
+      return 0;
     }
 
-    return this.countBusinessDaysPositive(startDate, endDate);
-  }
-  countBusinessDaysPositive(startDate, endDate) {
+    const isForward =
+      normalizedStartDate.getTime() < normalizedEndDate.getTime();
+    const rangeStart = isForward ? normalizedStartDate : normalizedEndDate;
+    const rangeEnd = isForward ? normalizedEndDate : normalizedStartDate;
+
     let count = 0;
-    const curDate = new Date(startDate.getTime());
+    const curDate = new Date(rangeStart.getTime());
 
-    curDate.setDate(curDate.getDate());
-    curDate.setHours(0, 0, 0, 0);
+    // Exclui o dia inicial
+    curDate.setDate(curDate.getDate() + 1);
 
-    const normalizedEndDate = new Date(endDate.getTime());
-    normalizedEndDate.setHours(0, 0, 0, 0);
-
-    while (curDate.getTime() <= normalizedEndDate.getTime()) {
+    // Exclui o dia final
+    while (curDate.getTime() < rangeEnd.getTime()) {
       const dayOfWeek = curDate.getDay();
       if (dayOfWeek !== 0 && dayOfWeek !== 6) {
         count++;
@@ -62,7 +60,7 @@ class OptionCalculator {
       curDate.setDate(curDate.getDate() + 1);
     }
 
-    return count;
+    return isForward ? count : -count;
   }
 
   getExpiryData() {
