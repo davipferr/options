@@ -81,24 +81,10 @@ function initCurrentInfoTab(calculator) {
 // Função para inicializar a aba de Análise por Data
 function initDateAnalysisTab(calculator) {
   const analysisDateInput = document.getElementById("analysis-date");
-  const analyzeButton = document.getElementById("analyze-button");
-  const resultsDiv = document.getElementById("analysis-results");
 
   // Definir data padrão como hoje
   const today = new Date();
   analysisDateInput.value = today.toISOString().split("T")[0];
-
-  // Event listener para o botão de análise
-  analyzeButton.addEventListener("click", () => {
-    const selectedDate = analysisDateInput.value;
-
-    if (!selectedDate) {
-      alert("Por favor, selecione uma data para análise.");
-      return;
-    }
-
-    performDateAnalysis(calculator, selectedDate);
-  });
 
   // Event listener para análise automática quando a data muda
   analysisDateInput.addEventListener("change", () => {
